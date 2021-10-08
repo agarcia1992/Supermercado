@@ -5,6 +5,7 @@
  */
 package clases;
 
+import java.io.FileInputStream;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,6 +31,7 @@ public class MetProducto {
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
+            FileInputStream archivoFoto;
             
            
             ps.setString(1, produc.getNombre_producto());
@@ -37,6 +39,8 @@ public class MetProducto {
             ps.setInt(3, produc.getPrecio_producto());
             ps.setInt(4, produc.getCantidad_producto());
             ps.setString(5, produc.getProveedor());
+            ps.setString(6, produc.getImagen());
+            
             ps.execute();
             return true;
         } catch (SQLException e) {
