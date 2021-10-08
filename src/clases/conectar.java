@@ -8,6 +8,7 @@ import java.sql.SQLException;
 public class conectar {
     Connection con;
     Connection con2;
+    
     public Connection getConnection(){
         try {
             String BD = "jdbc:mysql://localhost:3306/productos";
@@ -18,10 +19,10 @@ public class conectar {
         }
         return null;
     }
-     
+
     public Connection getConnection2(){
         try {
-            String BD = "jdbc:mysql://localhost:3306/usuariosadmin";
+            String BD = "jdbc:mysql://localhost:3306/analisis_ii";
             con2=DriverManager.getConnection(BD,"root","");
             return con2;
         } catch (SQLException e) {
@@ -29,5 +30,5 @@ public class conectar {
         }
         return null;
             }
-    
+
 }
