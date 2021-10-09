@@ -1,5 +1,7 @@
 package ModuloAdministrador;
 
+import Reportes.Excel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -187,6 +189,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        Excel.reporte();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProveedorActionPerformed
