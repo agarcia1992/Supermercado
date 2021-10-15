@@ -49,6 +49,7 @@ public class MetUsuario {
             con = cn.getConnection2();
             ps=con.prepareStatement(consulta);
             ps.setInt(1, codigo_usuario);
+            System.out.println(""+consulta);
             ps.execute();
             return true;
         } catch (SQLException e) {
