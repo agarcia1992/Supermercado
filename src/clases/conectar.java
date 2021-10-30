@@ -11,7 +11,7 @@ public class conectar {
     
     public Connection getConnection(){
         try {
-            String BD = "jdbc:mysql://localhost:3306/productos";
+            String BD = "jdbc:mysql://localhost:3306/analisis_ii";
             con=DriverManager.getConnection(BD,"root","");
             return con;
         } catch (SQLException e) {

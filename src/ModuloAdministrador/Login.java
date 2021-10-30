@@ -10,6 +10,9 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;  
+
 
 
 public class Login extends javax.swing.JFrame {
@@ -141,15 +144,17 @@ public class Login extends javax.swing.JFrame {
    //Variables
     String contrasena_usuario = null;
     String nombre_usuario = null;
+    String rol_usuario = null;
 
 try {
     stmt = reg.createStatement();
-    String query = "SELECT contrasena, nombre_usuario FROM usuario where nombre_usuario='"+jTextField1.getText()+"'";
+    String query = "SELECT u.contrasena_usuario, u.usuario, r.nombre_rol FROM usuario u, rol r where u.`codigo_rol` = r.`codigo_rol` and r.nombre_rol = 'administrador' and usuario='"+jTextField1.getText()+"'";
 
     rs = stmt.executeQuery(query);
             while (rs.next()) {
-                contrasena_usuario = rs.getString("contrasena");
-                nombre_usuario = rs.getString("nombre_usuario");
+                contrasena_usuario = rs.getString("contrasena_usuario");
+                nombre_usuario = rs.getString("usuario");
+                rol_usuario = rs.getString("nombre_rol");
                 System.out.println(" Sesión iniciada por: "+nombre_usuario+" Con contraseña: "+contrasena_usuario);
             }
 
@@ -162,13 +167,18 @@ catch (SQLException ex){
 
           
         
-        
+        String query = "SELECT u.contrasena_usuario, u.usuario, r.nombre_rol FROM usuario u, rol r where u.`codigo_rol` = r.`codigo_rol` and r.nombre_rol = 'administrador' and usuario='"+jTextField1.getText()+"'";
         String usuario = jTextField1.getText();
         String contrasena =jPasswordField1.getText();
-
+        System.out.println(query);
+        System.out.println(contrasena_usuario);
+        System.out.println(nombre_usuario);
+        System.out.println(rol_usuario);
         if(usuario.isEmpty()||contrasena.isEmpty() ){
             JOptionPane.showMessageDialog(null,"Ingresa un usuario y una contraseña valida.");}
         else {
+            //boolean passwordMatch = BCrypt.checkpw(contrasena, contrasena_usuario ); //false
+
             if( usuario.equals(nombre_usuario) && contrasena.equals(contrasena_usuario)){
                 JOptionPane.showMessageDialog(null,"Bienvenido");
                 Inicio II = new Inicio();

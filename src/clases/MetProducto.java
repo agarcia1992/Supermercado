@@ -27,7 +27,7 @@ public class MetProducto {
     ResultSet rs;
     
     public boolean RegistrarProductos(Productos produc){
-        String sql="INSERT INTO producto (nombre_producto, descripcion, precio_producto, cantidad_producto, codigo_proveedor) VALUES (?,?,?,?,?)";
+        String sql="INSERT INTO producto (nombre_producto, descripcion, precio_producto, cantidad_producto, Tipo_producto, codigo_proveedor, imagen) VALUES (?,?,?,?,?,?,?)";
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
@@ -36,10 +36,11 @@ public class MetProducto {
            
             ps.setString(1, produc.getNombre_producto());
             ps.setString(2, produc.getDescripcion());
-            ps.setInt(3, produc.getPrecio_producto());
+            ps.setInt(3, produc.getPrecio_producto()); 
             ps.setInt(4, produc.getCantidad_producto());
-            ps.setString(5, produc.getProveedor());
-            ps.setString(6, produc.getImagen());
+            ps.setString(5, produc.getTipo_producto());
+            ps.setString(6, produc.getProveedor());
+            ps.setString(7, produc.getImagen());
             
             ps.execute();
             return true;
