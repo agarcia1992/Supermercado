@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+
 public class MetUsuario {
     Connection con;
     conectar cn = new conectar();
@@ -23,9 +24,9 @@ public class MetUsuario {
     
     public List ListarUsuarios(){
        List<Usuario> ListaU = new ArrayList();
-       String sql = "SELECT `codigo_usuario`, `usuario`, `contrasena_usuario`, `estado_usuario`, `codigo_rol`, `fecha_creacion_usuario` FROM `usuario` WHERE `codigo_rol` = 1 ";
+       String sql = "SELECT u.codigo_usuario, u.usuario, u.contrasena_usuario, u.estado_usuario,  u.fecha_creacion_usuario, r.nombre_rol FROM usuario u, rol r WHERE u.codigo_rol = r.codigo_rol";
        try {
-           con = cn.getConnection2();
+           con = cn.getConnection();
            ps = con.prepareStatement(sql);
            rs = ps.executeQuery();
            while (rs.next()) {               
@@ -34,7 +35,7 @@ public class MetUsuario {
                user.setUsuario(rs.getString("usuario"));
                user.setContrasena_usuario(rs.getString("contrasena_usuario"));
                user.setEstado_usuario(rs.getString("estado_usuario"));
-               user.setCodigo_rol(rs.getInt("codigo_rol")); 
+               user.setNombre_rol(rs.getString("nombre_rol")); 
                ListaU.add(user);
            }
        } catch (SQLException e) {
@@ -43,10 +44,28 @@ public class MetUsuario {
        return ListaU;
     }
     
+    public void ConsultarRol(JComboBox Rol){
+        String sql = "SELECT nombre_rol FROM rol";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+               
+                Rol.addItem(rs.getString("nombre_rol"));
+                
+                
+            }
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+    }
+  
+    
     public boolean EliminarUsuarios(int codigo_usuario){
         String consulta = "UPDATE `usuario`  SET `estado_usuario` = 'inactivo' WHERE `codigo_usuario` = ?";
         try { 
-            con = cn.getConnection2();
+            con = cn.getConnection();
             ps=con.prepareStatement(consulta);
             ps.setInt(1, codigo_usuario);
             System.out.println(""+consulta);
@@ -68,7 +87,7 @@ public class MetUsuario {
     public boolean ActivarUsuarios(int codigo_usuario){
         String consulta = "UPDATE `usuario`  SET `estado_usuario` = 'activo' WHERE `codigo_usuario` = ?";
         try { 
-            con = cn.getConnection2();
+            con = cn.getConnection();
             ps=con.prepareStatement(consulta);
             ps.setInt(1, codigo_usuario);
             ps.execute();
@@ -89,7 +108,7 @@ public class MetUsuario {
     public boolean RegistrarUsuarios(Usuario user){
         String consulta = "INSERT INTO `usuario`( `usuario`, `contrasena_usuario`, `estado_usuario`, `codigo_rol`, `fecha_creacion_usuario`) VALUES (?,?,?,?,sysdate())";
         try {
-            con= cn.getConnection2();
+            con= cn.getConnection();
             ps= con.prepareStatement(consulta);
             ps.setString(1, user.getUsuario());
             ps.setString(2, user.getContrasena_usuario()); 
@@ -114,13 +133,13 @@ public class MetUsuario {
     }
     
     public boolean ModificarUsuarios(Usuario user){
-        String sql = "UPDATE `usuario` SET `usuario` = ?,`contrasena_usuario`= ? WHERE `codigo_usuario`= ?";
+        String sql = "UPDATE `usuario` SET `usuario` = ?,`contrasena_usuario`= ?, codigo_rol = ? WHERE `codigo_usuario`= ?";
         try {
-            con = cn.getConnection2();
+            con = cn.getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, user.getUsuario());
             ps.setString(2, user.getContrasena_usuario());
-            ps.setInt(3, user.getCodigo_usuario());
+            ps.setString(3, user.getNombre_rol());
             ps.execute();
             return true;
         } catch (SQLException e) {

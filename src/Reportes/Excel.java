@@ -135,7 +135,7 @@ public class Excel {
             
             sheet.setZoom(150);
             String fileName = "productos"; 
-            File file = new File("C:\\Users\\kyung\\Desktop\\"+ fileName + ".xlsx");
+            File file = new File("Escritorio"+ fileName + ".xlsx");
             FileOutputStream fileOut = new FileOutputStream(file);
             book.write(fileOut);
             fileOut.close();

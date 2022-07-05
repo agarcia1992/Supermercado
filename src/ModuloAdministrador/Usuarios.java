@@ -4,8 +4,14 @@
  * and open the template in the editor.
  */
 package ModuloAdministrador;
+
 import clases.MetUsuario; 
 import clases.Usuario;
+import clases.conectar;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,9 +22,19 @@ public class Usuarios extends javax.swing.JInternalFrame {
     Usuario user = new Usuario();
     MetUsuario muser = new MetUsuario();
     
+    
+    String ID_Rol = " ";
+    
+     Connection con;
+    conectar cn = new conectar();
+    PreparedStatement ps;
+    ResultSet rs;
+    
     public Usuarios() {
         initComponents();
         ListarUsuario();
+        Deshabilitar();
+        muser.ConsultarRol(cboRol);
     }
 
     public void ListarUsuario(){
@@ -30,7 +46,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
             ob[1] = Listaruser.get(i).getUsuario();
             ob[2] = Listaruser.get(i).getContrasena_usuario();
             ob[3] = Listaruser.get(i).getEstado_usuario();
-            ob[4] = "Cliente";
+            ob[4] = Listaruser.get(i).getNombre_rol();
             tablauser.addRow(ob);
         }
         TablaUsuarios.setModel(tablauser);
@@ -39,13 +55,13 @@ public class Usuarios extends javax.swing.JInternalFrame {
     public void Habilitar(){
        txtUsuario.setEnabled(true);
        txtContrasena.setEnabled(true);
-       //txtDireccion.setEnabled(true);
+       cboRol.setEnabled(true);
     }
     
     public void Deshabilitar(){
        txtUsuario.setEnabled(false);
        txtContrasena.setEnabled(false);
-       //txtDireccion.setEnabled(false);
+       cboRol.setEnabled(false);
     }
     
     public void LimpiarCampos(){
@@ -110,6 +126,9 @@ public class Usuarios extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        cboRol = new javax.swing.JComboBox<>();
+        txtID_Rol = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -203,6 +222,17 @@ public class Usuarios extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Comic Sans MS", 3, 14)); // NOI18N
+        jLabel9.setText("Rol");
+
+        cboRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboRolActionPerformed(evt);
+            }
+        });
+
+        txtID_Rol.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -227,13 +257,20 @@ public class Usuarios extends javax.swing.JInternalFrame {
                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addGap(34, 34, 34)
-                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel7)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel9))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(cboRol, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtID_Rol, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -261,14 +298,20 @@ public class Usuarios extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cboRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtID_Rol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNuevo)
                         .addGap(7, 7, 7)
                         .addComponent(btnGuardar)
                         .addGap(7, 7, 7)
                         .addComponent(btnActualizar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
@@ -290,7 +333,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
         txtID.setText(TablaUsuarios.getValueAt(fila, 0).toString());
         txtUsuario.setText(TablaUsuarios.getValueAt(fila, 1).toString());
         txtContrasena.setText(TablaUsuarios.getValueAt(fila, 2).toString());
-        //txtTelefono.setText(TablaUsuarios.getValueAt(fila, 2).toString());
+        cboRol.setSelectedItem(TablaUsuarios.getValueAt(fila, 4).toString());
         //txtDireccion.setText(TablaUsuarios.getValueAt(fila, 3).toString());
         btnGuardar.setEnabled(false);
         btnNuevo.setEnabled(false);
@@ -418,6 +461,29 @@ public class Usuarios extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    private void cboRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboRolActionPerformed
+        // TODO add your handling code here:
+         txtID_Rol.setText(" ");
+            String itemSeleecionado = (String)cboRol.getSelectedItem();   
+            String sql = "SELECT codigo_rol  FROM rol WHERE nombre_rol = '"+itemSeleecionado+"'";
+             
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+               
+                ID_Rol= rs.getString("codigo_rol");
+                   
+            }
+            txtID_Rol.setText(ID_Rol);
+            
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }  
+            
+    }//GEN-LAST:event_cboRolActionPerformed
+
     public static boolean isBlank(String str)
     {
         return str.trim().isEmpty();
@@ -430,6 +496,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JComboBox<String> cboRol;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -437,11 +504,13 @@ public class Usuarios extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField txtContrasena;
     private javax.swing.JTextArea txtDireccion;
     private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtID_Rol;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     private javax.swing.JTextField txtUsuario;

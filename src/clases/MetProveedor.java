@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 
 public class MetProveedor {
-    Connection con;
+    Connection con2;
     conectar cn = new conectar();
     PreparedStatement ps;
     ResultSet rs;
@@ -20,8 +20,8 @@ public class MetProveedor {
     public boolean RegistrarProveedor(Proveedor pro){
         String consulta = "INSERT INTO proveedor (nombre_proveedor, telefono_proveedor, direccion_proveedor) VALUES (?,?,?)";
         try {
-            con= cn.getConnection();
-            ps= con.prepareStatement(consulta);
+            con2= cn.getConnection();
+            ps= con2.prepareStatement(consulta);
             ps.setString(1, pro.getNombre_proveedor());
             ps.setInt(2, pro.getTelefono_proveedor());
             ps.setString(3, pro.getDireccion_proveedor());
@@ -35,7 +35,7 @@ public class MetProveedor {
             return false;
         }finally{
             try {
-                con.close();
+                con2.close();
             } catch (SQLException e) {
                 System.out.println(e.toString());
             }
@@ -47,8 +47,8 @@ public class MetProveedor {
        List<Proveedor> ListaP = new ArrayList();
        String consulta = "SELECT * FROM proveedor";
         try {
-            con= cn.getConnection();
-            ps=con.prepareStatement(consulta);
+            con2= cn.getConnection();
+            ps=con2.prepareStatement(consulta);
             rs=ps.executeQuery();
             while(rs.next()){
                 Proveedor pr = new Proveedor();
@@ -67,8 +67,8 @@ public class MetProveedor {
     public boolean EliminarProveedor(int codigo_proveedor){
         String consulta = "DELETE FROM proveedor WHERE codigo_proveedor = ?";
         try {
-            con = cn.getConnection();
-            ps=con.prepareStatement(consulta);
+            con2 = cn.getConnection();
+            ps=con2.prepareStatement(consulta);
             ps.setInt(1, codigo_proveedor);
             ps.execute();
             return true;
@@ -78,7 +78,7 @@ public class MetProveedor {
             
         }finally{
             try {
-                con.close();
+                con2.close();
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
@@ -88,8 +88,8 @@ public class MetProveedor {
     public boolean ModificarProveedor(Proveedor pr){
         String sql = "UPDATE proveedor SET nombre_proveedor = ?, telefono_proveedor = ?, direccion_proveedor = ? WHERE codigo_proveedor = ?";
         try {
-            con = cn.getConnection();
-            ps = con.prepareStatement(sql);
+            con2 = cn.getConnection();
+            ps = con2.prepareStatement(sql);
             ps.setString(1, pr.getNombre_proveedor());
             ps.setInt(2, pr.getTelefono_proveedor());
             ps.setString(3, pr.getDireccion_proveedor());
@@ -101,7 +101,7 @@ public class MetProveedor {
             return false;
         }finally{
             try {
-                con.close();
+                con2.close();
             } catch (SQLException e) {
                 System.out.println(e.toString());
             }

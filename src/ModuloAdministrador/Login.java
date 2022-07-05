@@ -18,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
 public class Login extends javax.swing.JFrame {
        //Variables
         conectar con = new conectar();
-        Connection reg = con.getConnection2();
+        Connection reg = con.getConnection();
         Statement stmt = null;
         ResultSet rs = null;
 

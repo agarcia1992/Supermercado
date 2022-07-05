@@ -15,18 +15,20 @@ public class Usuario {
     public String contrasena_usuario;
     public String estado_usuario;
     public int codigo_rol;
+    public String nombre_rol;
     
     public Usuario() {
     }
-    
-    public Usuario(int codigo_usuario, String usuario, String contrasena_usuario, String estado_usuario,int codigo_rol) {
+
+    public Usuario(int codigo_usuario, String usuario, String contrasena_usuario, String estado_usuario, int codigo_rol, String nombre_rol) {
         this.codigo_usuario = codigo_usuario;
         this.usuario = usuario;
         this.contrasena_usuario = contrasena_usuario;
         this.estado_usuario = estado_usuario;
         this.codigo_rol = codigo_rol;
+        this.nombre_rol = nombre_rol;
     }
-    
+
     public int getCodigo_usuario() {
         return codigo_usuario;
     }
@@ -34,7 +36,7 @@ public class Usuario {
     public void setCodigo_usuario(int codigo_usuario) {
         this.codigo_usuario = codigo_usuario;
     }
-    
+
     public String getUsuario() {
         return usuario;
     }
@@ -42,7 +44,7 @@ public class Usuario {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-    
+
     public String getContrasena_usuario() {
         return contrasena_usuario;
     }
@@ -50,7 +52,7 @@ public class Usuario {
     public void setContrasena_usuario(String contrasena_usuario) {
         this.contrasena_usuario = contrasena_usuario;
     }
-    
+
     public String getEstado_usuario() {
         return estado_usuario;
     }
@@ -58,7 +60,7 @@ public class Usuario {
     public void setEstado_usuario(String estado_usuario) {
         this.estado_usuario = estado_usuario;
     }
-    
+
     public int getCodigo_rol() {
         return codigo_rol;
     }
@@ -66,4 +68,16 @@ public class Usuario {
     public void setCodigo_rol(int codigo_rol) {
         this.codigo_rol = codigo_rol;
     }
+
+    public String getNombre_rol() {
+        return nombre_rol;
+    }
+
+    public void setNombre_rol(String nombre_rol) {
+        this.nombre_rol = nombre_rol;
+    }
+ 
+    
+    
+    
 }
